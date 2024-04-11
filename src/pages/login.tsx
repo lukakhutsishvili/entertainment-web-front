@@ -9,13 +9,7 @@ type Inputs = {
   password: string;
 };
 
-type errorType = {
-  response: {
-    data: {
-      message: string;
-    };
-  };
-};
+
 
 const Login = () => {
   const { register, handleSubmit, formState } = useForm<Inputs>();
