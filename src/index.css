@@ -17,4 +17,16 @@ body,
   min-height: 100vh;
 }
 
+.slide-track {
+  animation: scroll 40s linear infinite;
 
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
