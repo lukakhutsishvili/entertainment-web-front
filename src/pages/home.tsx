@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import Header from "../components/header";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateData } from "../store/dataSlice";
+import { RootState } from "../store/redux";
+import Input from "../components/search";
+import Carusel from "../components/carusel";
+import Body from "../components/body";
+import SearchBody from "../components/searchbody";
 
 type Thumbnail = {
   regular: {
@@ -16,7 +22,7 @@ type Thumbnail = {
   };
 };
 
-type Movie = {
+export type Movie = {
   thumbnail: Thumbnail;
   _id: string;
   title: string;
@@ -28,13 +34,20 @@ type Movie = {
 };
 
 const Home = () => {
-  const [data, setData] = useState<Movie[] | undefined>();
+  const data: Movie[] = useSelector((store: RootState) => store.data);
+  const dispatch = useDispatch();
+
+  const filteredData = data?.filter((item) => item.isTrending === false);
+  const filteredSearchData = data;
+
+  const [value, setvalue] = useState<string>("");
+  const [submit, setSubmit] = useState<string>("");
 
   const navigate = useNavigate();
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/movies");
-      setData(response.data);
+      dispatch(updateData(response.data));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -52,6 +65,7 @@ const Home = () => {
       }
     }
   };
+  console.log(data);
 
   useEffect(() => {
     fetchData();
@@ -60,55 +74,18 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <div className="mt-6 flex items-center pl-4 ">
-        <img className=" w-[24px]" src="/assets/icon-search.svg" />
-        <input
-          className="border-none outline-none pl-[20px] pr-[30px] w-full text-[16px] font-light bg-transparent text-white"
-          type="text"
-          placeholder="Search for movies or TV series"
-        />
-      </div>
-      <h2 className="text-[20px] font-light pl-4 mt-6 text-white">Trending</h2>
-      <div>
-        <div className="relative overflow-hidden mt-4 px-4 h-[140px]">
-          <div className=" h-[140px] gap-4 slide-track overflow-hidden  absolute   flex">
-            {data
-              ?.filter((item) => item.isTrending === true)
-              .map((item, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg h-full min-w-[240px] bg-no-repeat flex flex-col"
-                  style={{
-                    backgroundImage: `url(${item.thumbnail.trending.small})`,
-                    backgroundSize: "100% 100% ",
-                  }}
-                >
-                  <div className="w-8 h-8 mt-2 ml-auto mr-2 flex items-center justify-center bg-bookmarkDiv rounded-[50%]">
-                    <img src="/assets/icon-bookmark-empty.svg" />
-                  </div>
-                  <div className="text-[12px] font-normal text-white opacity-[0.75] flex mt-[46px] gap-[9px] items-center ml-4">
-                    <p>{item.year}</p>
-                    <div className="rounded-[50%] bg-white w-[3px] h-[3px] opacity-[0.5]"></div>
-                    <div className="flex items-center">
-                      <img
-                        className="w-[12px] h-[12px]"
-                        src="/assets/icon-nav-movies.svg"
-                      />
-                      <span className="ml-[6px]">{item.category}</span>
-                    </div>
-                    <div className="rounded-[50%] bg-white w-[3px] h-[3px] opacity-[0.5]"></div>
-                    <p>{item.rating}</p>
-                  </div>
-                  <h3 className="text-[15px] font-medium ml-4 mt-1 text-white">
-                    {item.title}
-                  </h3>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
-      <h1 className="mt-[300px] text-white">afasf</h1>
+      <Input value={value} setvalue={setvalue} setSubmit={setSubmit}>
+        Search for movies or TV series
+      </Input>
+      {submit.trim() !== "" ? (
+        <SearchBody filteredSearchData={filteredSearchData} submit={submit} />
+      ) : (
+        <>
+          {" "}
+          <Carusel data={data} />
+          <Body filteredData={filteredData}>Recommended for you</Body>
+        </>
+      )}
     </>
   );
 };

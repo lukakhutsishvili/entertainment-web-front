@@ -9,9 +9,13 @@ export default {
         gray: "#5a698f",
         darkBlue: "#161d2f",
         bookmarkDiv: "rgba(16, 20, 30, 0.5)",
+        hoverDiv: "rgba(0, 0, 0, 0.5)",
       },
       fontFamily: {
         outfit: ['"Outfit", sans-serif'],
+      },
+      width: {
+        available: "-webkit-fill-available",
       },
     },
   },

@@ -18,15 +18,30 @@ body,
 }
 
 .slide-track {
-  animation: scroll 40s linear infinite;
-
+  animation: scroll 60s linear 1s infinite;
 }
 
 @keyframes scroll {
   0% {
     transform: translateX(0);
   }
-  100% {
-    transform: translateX(-100%);
+  50% {
+    transform: translateX(-55%);
   }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slide-track:hover {
+  animation-play-state: paused;
+}
+
+.hoverdiv {
+  opacity: 0;
+  transition: all 0.3s linear;
+}
+
+.caruseldiv:hover .hoverdiv {
+  opacity: 1;
 }
