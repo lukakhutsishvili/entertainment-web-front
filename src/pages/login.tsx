@@ -9,8 +9,6 @@ type Inputs = {
   password: string;
 };
 
-
-
 const Login = () => {
   const { register, handleSubmit, formState } = useForm<Inputs>();
   const { errors } = formState;
@@ -42,11 +40,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center px-6 pt-12">
+    <div className="lg:px-[520px] pb-[100px] md:px-[184px] md:pt-[56px] flex flex-col justify-center px-6 pt-12">
       <div className="flex justify-center">
         <img src="/assets/logo.svg" />
       </div>
-      <div className=" bg-darkBlue p-6 pb-8 mt-[58px]  rounded-[10px]">
+      <div className="md:rounded-[20px] md:mt-[72px] md:p-8 bg-darkBlue p-6 pb-8 mt-[58px]  rounded-[10px]">
         <h1 className=" font-light text-white text-[32px]">Login</h1>
         <form onSubmit={handleSubmit(submit)}>
           <div className="relative">

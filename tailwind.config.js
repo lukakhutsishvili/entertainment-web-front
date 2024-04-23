@@ -17,6 +17,9 @@ export default {
       width: {
         available: "-webkit-fill-available",
       },
+      screens: {
+        lg: "1440px",
+      },
     },
   },
   plugins: [],

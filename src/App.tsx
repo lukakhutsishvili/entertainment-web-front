@@ -8,17 +8,19 @@ import Header from "./components/header";
 
 function App() {
   return (
-    <div className=" bg-dark min-h-screen font-outfit">
+    <div className="lg:flex md:pt-6 bg-dark min-h-screen font-outfit">
       <Header />
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/movies" element={<MoviesPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/series" element={<SeriesPage />} />
-        <Route path="/bookedMovies" element={<BookmarkedMoviesPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-      </Routes>
+      <div>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/series" element={<SeriesPage />} />
+          <Route path="/bookedMovies" element={<BookmarkedMoviesPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Routes>
+      </div>
     </div>
   );
 }

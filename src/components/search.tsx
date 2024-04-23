@@ -5,8 +5,11 @@ const Input: React.FC<{
   children: string;
 }> = ({ value, setvalue, setSubmit, children }) => {
   return (
-    <div className="mt-6 flex items-center pl-4  ">
-      <img className={`w-[24px] pb-[15px]`} src="/assets/icon-search.svg" />
+    <div className="lg:pl-0 mt-6 flex items-center pl-4 md:mt-[37px] md:pl-[29px]  ">
+      <img
+        className={`md:w-[32px] w-[24px] pb-[15px]`}
+        src="/assets/icon-search.svg"
+      />
       <form
         className=" ml-[20px] w-available mr-[36px]"
         onSubmit={(e) => {
@@ -15,7 +18,7 @@ const Input: React.FC<{
         }}
       >
         <input
-          className="pb-[15px] w-available  border-b-[1px] border-b-transparent  focus:border-b-[1px]  focus:border-b-solid  focus:border-b-gray  outline-none text-[16px] font-light bg-transparent text-white"
+          className="pb-[15px] w-available md:text-[24px]  border-b-[1px] border-b-transparent  focus:border-b-[1px]  focus:border-b-solid  focus:border-b-gray  outline-none text-[16px] font-light bg-transparent text-white"
           type="text"
           placeholder={children}
           value={value}
