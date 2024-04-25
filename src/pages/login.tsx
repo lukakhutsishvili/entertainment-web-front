@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { updateUserData } from "../store/userDataSlice";
 
 type Inputs = {
   email: string;
@@ -12,7 +14,7 @@ type Inputs = {
 const Login = () => {
   const { register, handleSubmit, formState } = useForm<Inputs>();
   const { errors } = formState;
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [emailError, setEmailErrors] = useState();
@@ -24,13 +26,12 @@ const Login = () => {
         email: data.email,
         password: data.password,
       });
-      console.log(response.data);
       if (response.data.token) {
+        dispatch(updateUserData({ id: response.data.id }));
         navigate("/home");
         localStorage.setItem("token", response.data.token);
       }
     } catch (error: any) {
-      console.log(error);
       if (error.response.data.emailError) {
         setEmailErrors(error.response.data.emailError);
       } else if (error.response.data.passwordError) {

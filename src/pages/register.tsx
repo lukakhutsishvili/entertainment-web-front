@@ -37,7 +37,6 @@ const Register = () => {
         password: data.password,
       });
       setResponse(res.data[0]);
-      console.log(res.data);
       if (!res.data[0]) {
         navigate("/login");
       }

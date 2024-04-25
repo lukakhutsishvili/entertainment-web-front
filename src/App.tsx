@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Login, Register } from "./pages";
 import Home from "./pages/home";
 import MoviesPage from "./pages/movies";
@@ -7,8 +7,17 @@ import BookmarkedMoviesPage from "./pages/bookmarked";
 import Header from "./components/header";
 
 function App() {
+  const location = useLocation();
+
+  const isLogin = location.pathname === "/login";
+  const isRegister = location.pathname === "/register";
+
   return (
-    <div className="lg:flex md:pt-6 bg-dark min-h-screen font-outfit">
+    <div
+      className={`${
+        isLogin || isRegister ? "lg:block" : "lg:flex"
+      } md:pt-6 bg-dark min-h-screen font-outfit`}
+    >
       <Header />
       <div>
         <Routes>

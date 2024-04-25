@@ -7,9 +7,10 @@ import { updateData } from "../store/dataSlice";
 import { RootState } from "../store/redux";
 import Input from "../components/search";
 import Carusel from "../components/carusel";
-import Body from "../components/body";
+import Body from "../components/body"; // Import the Body component
 import SearchBody from "../components/searchbody";
 
+// Define the Movie type and Thumbnail type
 type Thumbnail = {
   regular: {
     small: string;
@@ -34,16 +35,47 @@ export type Movie = {
 };
 
 const Home = () => {
+  // Function to send bookmarked movies
+  const [bookMarkedMovies, setBookMarkedMovies] = useState<string[]>([]);
+
+  const sendBookedMovies = async (item: Movie) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/sendBookmarkedMovies",
+        {
+          id: userData.id,
+          movies: item._id,
+        }
+      );
+      setBookMarkedMovies([...response.data.bookMarkedMovies]);
+      console.log(bookMarkedMovies);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Redux state access
   const data: Movie[] = useSelector((store: RootState) => store.data);
+  const userData: any = useSelector((store: RootState) => store.userData);
   const dispatch = useDispatch();
 
-  const filteredData = data?.filter((item) => item.isTrending === false);
+  // Function to update isBookmarked property based on bookMarkedMovies
+  const updatedData = data.map((movie) => {
+    const isBookmarked = bookMarkedMovies?.includes(movie._id);
+    return { ...movie, isBookmarked };
+  });
+
+  // Filtered data
+  const filteredData = updatedData?.filter((item) => item.isTrending === false);
   const filteredSearchData = data;
 
+  // State for search value
   const [value, setvalue] = useState<string>("");
   const [submit, setSubmit] = useState<string>("");
 
   const navigate = useNavigate();
+
+  // Fetch data from API
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/movies");
@@ -53,20 +85,19 @@ const Home = () => {
     }
   };
 
+  // Check if user is logged in
   const isLoggedIn = async () => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       const decoded: any = await jwtDecode(token);
-      console.log(decoded);
       const isTokenExpired = (await decoded?.exp) < Date.now() / 1000;
       if (isTokenExpired) {
         navigate("/login");
       }
     }
   };
-  console.log(data);
 
+  // Fetch data and check login status on component mount
   useEffect(() => {
     fetchData();
     isLoggedIn();
@@ -81,9 +112,10 @@ const Home = () => {
         <SearchBody filteredSearchData={filteredSearchData} submit={submit} />
       ) : (
         <>
-          {" "}
           <Carusel data={data} />
-          <Body filteredData={filteredData}>Recommended for you</Body>
+          <Body filteredData={filteredData} sendBookedMovies={sendBookedMovies}>
+            Recommended for you
+          </Body>
         </>
       )}
     </>
