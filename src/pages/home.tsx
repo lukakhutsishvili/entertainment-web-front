@@ -54,6 +54,17 @@ const Home = () => {
     }
   };
 
+  const favouriteMovies = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/bookMarkedMovies/${userData.id}`
+      );
+      setBookMarkedMovies([...response.data]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   // Redux state access
   const data: Movie[] = useSelector((store: RootState) => store.data);
   const userData: any = useSelector((store: RootState) => store.userData);
@@ -101,6 +112,7 @@ const Home = () => {
   useEffect(() => {
     fetchData();
     isLoggedIn();
+    favouriteMovies();
   }, [navigate]);
 
   return (
