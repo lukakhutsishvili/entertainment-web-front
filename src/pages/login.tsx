@@ -22,10 +22,13 @@ const Login = () => {
 
   const submit = async (data: Inputs) => {
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post(
+        "https://entertainment-web-back-production.up.railway.app/api/login",
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
       if (response.data.token) {
         dispatch(updateUserData({ id: response.data.id }));
         navigate("/home");

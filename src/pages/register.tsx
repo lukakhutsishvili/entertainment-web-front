@@ -32,10 +32,13 @@ const Register = () => {
 
   const submit = async (data: Inputs) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/register", {
-        email: data.email,
-        password: data.password,
-      });
+      const res = await axios.post(
+        "https://entertainment-web-back-production.up.railway.app/api/register",
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
       setResponse(res.data[0]);
       if (!res.data[0]) {
         navigate("/login");

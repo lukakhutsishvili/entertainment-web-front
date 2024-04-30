@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [page, setPage] = useState<string>("home");
-  console.log(page);
   const location = useLocation();
 
   const isLogin = location.pathname === "/login";

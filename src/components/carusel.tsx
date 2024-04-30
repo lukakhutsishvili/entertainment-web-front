@@ -1,6 +1,9 @@
 import { Movie } from "../pages/home";
 
-const Carusel: React.FC<{ data: Movie[] }> = ({ data }) => {
+const Carusel: React.FC<{
+  data: Movie[];
+  sendBookedMovies(item: any): void;
+}> = ({ data, sendBookedMovies }) => {
   return (
     <>
       <h2 className="lg:pl-0 md:mt-[34px] md:text-[32px] text-[20px] font-light pl-4 mt-6 text-white">
@@ -35,10 +38,13 @@ const Carusel: React.FC<{ data: Movie[] }> = ({ data }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="hover:bg-white svgDiv md:mt-4 md:mr-6 w-8 h-8 mt-2 ml-auto mr-2 flex items-center justify-center bg-bookmarkDiv rounded-[50%] relative z-30">
+                  <div
+                    onClick={() => sendBookedMovies(item)}
+                    className="hover:bg-white svgDiv md:mt-4 md:mr-6 w-8 h-8 mt-2 ml-auto mr-2 flex items-center justify-center bg-bookmarkDiv rounded-[50%] relative z-30"
+                  >
                     {!item.isBookmarked ? (
                       <svg
-                      className="path"
+                        className="path"
                         width="12"
                         height="14"
                         xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +59,7 @@ const Carusel: React.FC<{ data: Movie[] }> = ({ data }) => {
                       </svg>
                     ) : (
                       <svg
-                      className="path"
+                        className="path"
                         width="12"
                         height="14"
                         xmlns="http://www.w3.org/2000/svg"
