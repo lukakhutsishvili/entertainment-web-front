@@ -31,6 +31,7 @@ const Login = () => {
       );
       if (response.data.token) {
         dispatch(updateUserData({ id: response.data.id }));
+        localStorage.setItem("userId", response.data.id);
         navigate("/home");
         localStorage.setItem("token", response.data.token);
       }

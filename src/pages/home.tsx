@@ -9,8 +9,9 @@ import Input from "../components/search";
 import Carusel from "../components/carusel";
 import Body from "../components/body"; // Import the Body component
 import SearchBody from "../components/searchbody";
-import { favouritedMovies, fetchData } from "../functions/requests";
+import { favouritedMovies } from "../functions/requests";
 import { useBookmarkedMovies } from "../App";
+import { updateUserData } from "../store/userDataSlice";
 
 // Define the Movie type and Thumbnail type
 type Thumbnail = {
@@ -37,8 +38,22 @@ export type Movie = {
 };
 
 const Home = () => {
+  // Redux state access
+  const data: Movie[] = useSelector((store: RootState) => store.data);
+  const dispatch = useDispatch();
+  const userId = localStorage.getItem("userId");
+  useEffect(() => {
+    console.log("userId:", userId);
+    if (userId) {
+      dispatch(updateUserData({ id: userId }));
+    }
+  }, [userId]);
+  const userData: any = useSelector((store: RootState) => store.userData);
+  console.log(userData);
+
   // Function to send bookmarked movies
   const { bookMarkedMovies, setBookMarkedMovies } = useBookmarkedMovies();
+  localStorage.setItem("bookMarkedMovies", JSON.stringify(bookMarkedMovies));
 
   const sendBookedMovies = async (item: Movie) => {
     try {
@@ -55,11 +70,6 @@ const Home = () => {
       console.log(error);
     }
   };
-
-  // Redux state access
-  const data: Movie[] = useSelector((store: RootState) => store.data);
-  const userData: any = useSelector((store: RootState) => store.userData);
-  const dispatch = useDispatch();
 
   // Function to update isBookmarked property based on bookMarkedMovies
   const updatedData = data.map((movie) => {
@@ -91,10 +101,11 @@ const Home = () => {
 
   // Fetch data and check login status on component mount
   useEffect(() => {
-    fetchData(dispatch);
     isLoggedIn();
-    favouritedMovies(setBookMarkedMovies, userData);
-  }, [navigate]);
+    if (userData && userData.id) {
+      favouritedMovies(setBookMarkedMovies, userData);
+    }
+  }, [userData, isLoggedIn]);
 
   return (
     <>

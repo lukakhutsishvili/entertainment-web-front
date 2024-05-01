@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
-  const [page, setPage] = useState<string>("home");
+  const [page, setPage] = useState<string>(
+    () => localStorage.getItem("currentPage") || "home"
+  );
   const location = useLocation();
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", page);
+  }, [page]);
 
   const isLogin = location.pathname === "/login";
   const isRegister = location.pathname === "/register";

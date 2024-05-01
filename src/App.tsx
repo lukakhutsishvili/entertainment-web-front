@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { useState, createContext, useContext, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Login, Register } from "./pages";
 import Home from "./pages/home";
@@ -6,6 +6,8 @@ import MoviesPage from "./pages/movies";
 import SeriesPage from "./pages/serials";
 import BookmarkedMoviesPage from "./pages/bookmarked";
 import Header from "./components/header";
+import { fetchData } from "./functions/requests";
+import { useDispatch } from "react-redux";
 
 type createContextType = {
   bookMarkedMovies: string[];
@@ -21,6 +23,11 @@ const BookmarkedMoviesContext = createContext<createContextType>({
 function App() {
   const location = useLocation();
   const [bookMarkedMovies, setBookMarkedMovies] = useState<string[]>([]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchData(dispatch);
+  }, []);
 
   const isLogin = location.pathname === "/login";
   const isRegister = location.pathname === "/register";

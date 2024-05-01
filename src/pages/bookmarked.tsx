@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/redux";
 import { Movie } from "./home";
 import Input from "../components/search";
@@ -7,6 +7,7 @@ import SearchBody from "../components/searchbody";
 import Body from "../components/body";
 import { useBookmarkedMovies } from "../App";
 import axios from "axios";
+import { updateUserData } from "../store/userDataSlice";
 
 const BookmarkedMoviesPage = () => {
   const { bookMarkedMovies, setBookMarkedMovies } = useBookmarkedMovies();
@@ -28,6 +29,18 @@ const BookmarkedMoviesPage = () => {
   const filteredSearchData = updatedData.filter(
     (item) => item.isBookmarked === true
   );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const storedBookmarkedMovies = JSON.parse(
+      localStorage.getItem("bookMarkedMovies") || "[]"
+    );
+    setBookMarkedMovies(storedBookmarkedMovies);
+    if (userId != null) {
+      dispatch(updateUserData({ id: userId }));
+    }
+  }, []);
 
   const sendBookedMovies = async (item: Movie) => {
     try {
@@ -39,6 +52,10 @@ const BookmarkedMoviesPage = () => {
         }
       );
       setBookMarkedMovies([...response.data.bookMarkedMovies]);
+      localStorage.setItem(
+        "bookMarkedMovies",
+        JSON.stringify(response.data.bookMarkedMovies)
+      );
       console.log(bookMarkedMovies);
     } catch (error) {
       console.log(error);
