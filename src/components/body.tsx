@@ -77,13 +77,13 @@ const Body: React.FC<{
                 <div className="flex items-center">
                   {item.category == "Movie" ? (
                     <img
-                      className="w-[12px] h-[12px]"
-                      src="/assets/icon-nav-movies.svg"
+                      className="w-3 h-3"
+                      src="/assets/icon-category-movie.svg"
                     />
                   ) : (
                     <img
-                      className="w-[12px] h-[12px]"
-                      src="/assets/icon-nav-tv-series.svg"
+                      className="w-3 h-3"
+                      src="/assets/icon-category-tv.svg"
                     />
                   )}
 
