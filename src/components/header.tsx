@@ -13,8 +13,9 @@ const Header = () => {
 
   const isLogin = location.pathname === "/login";
   const isRegister = location.pathname === "/register";
+  const isVerified = location.pathname === "/verified";
 
-  if (isLogin || isRegister) {
+  if (isLogin || isRegister || isVerified) {
     return null;
   } else {
     return (

@@ -8,6 +8,7 @@ import BookmarkedMoviesPage from "./pages/bookmarked";
 import Header from "./components/header";
 import { fetchData } from "./functions/requests";
 import { useDispatch } from "react-redux";
+import VerificationPage from "./pages/verified";
 
 type createContextType = {
   bookMarkedMovies: string[];
@@ -31,11 +32,12 @@ function App() {
 
   const isLogin = location.pathname === "/login";
   const isRegister = location.pathname === "/register";
+  const isverified = location.pathname === "/verified";
 
   return (
     <div
       className={`${
-        isLogin || isRegister ? "lg:block" : "lg:flex"
+        isLogin || isRegister || isverified ? "lg:block" : "lg:flex"
       } md:pt-6 bg-dark min-h-screen font-outfit`}
     >
       <Header />
@@ -52,6 +54,7 @@ function App() {
             <Route path="/bookedMovies" element={<BookmarkedMoviesPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verified" element={<VerificationPage />} />
           </Routes>
         </div>
       </BookmarkedMoviesContext.Provider>
