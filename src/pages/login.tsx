@@ -67,7 +67,7 @@ const Login = () => {
               })}
             />
             <p className="absolute text-red text-[13px] font-light right-[17px] bottom-[18px] ">
-              {errors.email && errors.email.message}
+              {emailError ? "" : errors.email && errors.email.message}
               {emailError && emailError}
             </p>
           </div>
@@ -82,7 +82,7 @@ const Login = () => {
               })}
             />
             <p className="absolute text-red text-[13px] font-light right-[17px] bottom-[18px] ">
-              {errors.password && errors.password.message}
+              {passwordError ? "" : errors.password && errors.password.message}
               {passwordError && passwordError}
             </p>
           </div>
