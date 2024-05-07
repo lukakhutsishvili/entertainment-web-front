@@ -9,7 +9,7 @@ const VerificationPage = () => {
           Congratulations! You have been successfully verified.
         </p>
 
-        <Link to="/login">
+        <Link to="/home">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
             Go to Login
           </button>
