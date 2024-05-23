@@ -73,6 +73,7 @@ const Login = () => {
           </div>
           <div className="relative">
             <input
+              type="password"
               className={`pl-[16px] focus:border-white  pb-[17px] border-b-[1px] mt-6 w-full outline-[0px] bg-transparent text-[15px] font-light text-white placeholder:opacity-[0.5] caret-red  border-0 ${
                 errors.email ? "border-red " : "border-gray "
               }`}
